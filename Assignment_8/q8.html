@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors Game</title>
+    <style>
+        #result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Rock, Paper, Scissors Game</h1>
+    
+    <div>
+        <button onclick="playGame('rock')">Rock</button>
+        <button onclick="playGame('paper')">Paper</button>
+        <button onclick="playGame('scissors')">Scissors</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        function playGame(userChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            let result = '';
+
+            if (userChoice === computerChoice) {
+                result = `It's a draw! Both chose ${userChoice}.`;
+            } else if (
+                (userChoice === 'rock' && computerChoice === 'scissors') ||
+                (userChoice === 'paper' && computerChoice === 'rock') ||
+                (userChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = `You win! ${capitalize(userChoice)} beats ${capitalize(computerChoice)}.`;
+            } else {
+                result = `You lose! ${capitalize(computerChoice)} beats ${capitalize(userChoice)}.`;
+            }
+
+            document.getElementById('result').textContent = `Computer chose ${capitalize(computerChoice)}. ${result}`;
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    </script>
+
+</body>
+</html>
