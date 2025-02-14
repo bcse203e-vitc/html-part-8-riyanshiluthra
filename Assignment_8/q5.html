@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Count and Highlight Repeated Words</title>
+    <style>
+        .highlight {
+            background-color: yellow;
+        }
+        #word-count {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Textarea with Word Count and Highlight Repeated Words</h1>
+
+    <textarea id="text-area" rows="10" cols="50" oninput="updateWordCount()"></textarea>
+    <div id="word-count">Word count: 0</div>
+
+    <script>
+        function updateWordCount() {
+            const text = document.getElementById('text-area').value;
+            const wordCount = getWordCount(text);
+            document.getElementById('word-count').textContent = `Word count: ${wordCount}`;
+
+            highlightRepeatedWords(text);
+        }
+
+        function getWordCount(text) {
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+            return words.length;
+        }
+
+        function highlightRepeatedWords(text) {
+            const words = text.trim().split(/\s+/);
+            const wordFrequency = {};
+
+            words.forEach(word => {
+                word = word.toLowerCase(); // Make the word lowercase to handle case insensitivity
+                wordFrequency[word] = (wordFrequency[word] || 0) + 1;
+            });
+
+            const uniqueWords = Object.keys(wordFrequency);
+            const highlightedText = words.map(word => {
+                const lowerWord = word.toLowerCase();
+                return wordFrequency[lowerWord] > 1 ? `<span class="highlight">${word}</span>` : word;
+            }).join(' ');
+
+            document.getElementById('text-area').innerHTML = highlightedText;
+        }
+    </script>
+
+</body>
+</html>
