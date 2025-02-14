@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        #timer {
+            font-size: 48px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 18px;
+            width: 80px;
+            text-align: center;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Countdown Timer</h1>
+    
+    <label for="time-input">Enter time in seconds:</label>
+    <input type="number" id="time-input" placeholder="Seconds" min="1">
+    <button onclick="startTimer()">Start</button>
+    
+    <div id="timer">00:00</div>
+
+    <audio id="alarm-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+
+    <script>
+        let countdown;
+        let timeLeft;
+
+        function startTimer() {
+            
+            clearInterval(countdown);
+
+          
+            timeLeft = parseInt(document.getElementById('time-input').value, 10);
+            if (isNaN(timeLeft) || timeLeft <= 0) {
+                alert("Please enter a valid number of seconds.");
+                return;
+            }
+
+            
+            updateTimerDisplay();
+
+            
+            countdown = setInterval(function() {
+                timeLeft--;
+
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdown); 
+                    playSound(); 
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+
+           
+            document.getElementById('timer').textContent = `${padZero(minutes)}:${padZero(seconds)}`;
+        }
+
+        function padZero(num) {
+            return num < 10 ? '0' + num : num;
+        }
+
+        function playSound() {
+            const sound = document.getElementById('alarm-sound');
+            sound.play();
+        }
+    </script>
+
+</body>
+</html>
